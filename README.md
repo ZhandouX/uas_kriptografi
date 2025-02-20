@@ -4,15 +4,18 @@
    ```
    composer create-project laravel/laravel qrcode
    ```
+   
 2. Masuk ke File Project:
    ```
    cd qrcode
    ```
+   
 3. Install Laravel Breeze:
    ```
    composer require laravel/breeze --dev
    ```
    Kemudian pilih ```blade```--> Untuk proyek berbasis Blade (sederhana dan ringan) dan juga agar fokus pada autentikasi dasar.
+   
 4. Migrasi Database:
    Mengubah pengaturan database di file ```.env```:
    ```
