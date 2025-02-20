@@ -101,7 +101,7 @@
    d) Breeze secara otomatis sudah menyiap fungsi Logout.
 8. Uji Coba Login dan Register:
    # Register:
-   ![Wellcome: ](scrensh0ot/REGISTER.png)
+   ![Wellcome: ](screnshoot/REGISTER.png)
    # Login:
    ![Wellcome: ](screnshoot/LOGIN.png)
    Saat User berhasil melakukan Register atau Login maka akan diarahkan ke halaman Dashboard:
