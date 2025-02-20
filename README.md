@@ -1,5 +1,5 @@
-## PROJECT UAS
-# Implementasi Fitur Autentikasi Menggunakan Laravel Breeze
+# PROJECT UAS
+## Implementasi Fitur Autentikasi Menggunakan Laravel Breeze
 1. Membuat Project Baru:  
    ```
    composer create-project laravel/laravel qrcode
@@ -29,12 +29,14 @@
    Perubahan:
             ```DB_CONNECTION=sqlite``` --> ```DB_CONNECTION=mysql``` Karena pada dasarnya MySQL memiliki kelebih Dukungan Penuh dan Cocok Untuk Aplikasi Besar.
             ```DB_DATABASE=Laravel``` --> ```DB_DATABASE=qr_code``` Menyesuaikan dengan nama database yang dibuat sebelumnya.
-5. Membuat Tabel:
+   
+6. Membuat Tabel:
    Jalankan migrasi untuk membuat tabel pengguna dan tabel terkait autentikasi:
    ```
    php artisan migrate
    ```
-6. Menjalankan Aplikasi:
+   
+7. Menjalankan Aplikasi:
    ```
    php artisan serve
    ```
@@ -44,7 +46,8 @@
    - ```/register``` --> Registrasi
    - ```/login``` --> Login
    - ```/dashboard``` --> Dashboard (memerlukan autentikasi)
-7. Contoh Code:
+    
+8. Contoh Code:
    Semua rute yang berkaitan dengan autentikasi berada di          ```routes/auth.php```. Ini di impor secara otomatis ke dalam Aplikasi.
    a) Code middleware pada ```routes/web.php```:
       ```
@@ -99,10 +102,11 @@
        Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
        ```
    d) Breeze secara otomatis sudah menyiap fungsi Logout.
-8. Uji Coba Login dan Register:
-   # Register:
+   
+10. Uji Coba Login dan Register:
+   ## Register:
    ![Wellcome: ](screnshoot/REGISTER.png)
-   # Login:
+   ## Login:
    ![Wellcome: ](screnshoot/LOGIN.png)
    Saat User berhasil melakukan Register atau Login maka akan diarahkan ke halaman Dashboard:
    ![Wellcome: ](screnshoot/DASHBOARD.png)
@@ -111,7 +115,9 @@
    ![Wellcome: ](screnshoot/TBLUSER.png)
 
 
-# Membuat middleware di Laravel untuk mencegah serangan XSS
+## Membuat middleware di Laravel untuk mencegah serangan XSS
+Link github untuk project xss-protection: https://github.com/ZhandouX/xss_protection.git
+
 1. Membuat Projek:
    ```
    composer create-project laravel/laravel xss-protection
@@ -210,7 +216,7 @@
    }
    ```
 
-# Menambahkan logo sebagai watermark pada halaman login, navbar, dan footer menggunakan Laravel Blade.
+## Menambahkan logo sebagai watermark pada halaman login, navbar, dan footer menggunakan Laravel Blade.
 1. Siapkan file gambar yang akan dijadikan sebagai logo watermark. Kemudian file gambar diletakkan di folder ```public/images/logo.png```.
 2. Kemudian masuk ke projek aplikasi yaitu ```qrcode``` diatas, dan buka file             ```resources/views/layout/navigation.blade.php```. Dan ubah code ini:
     ```
@@ -229,7 +235,7 @@
    ![Wellcome: ](screnshoot/LogoRegistrasi.png)
 
 
-# Membuat Fitur Tanda Tangan Digital Dengan URL Menjadi Sebuah QR Code
+## Membuat Fitur Tanda Tangan Digital Dengan URL Menjadi Sebuah QR Code
 1. Install Library ```simple-qrcode```:
    ```
    composer require simplesoftwareio/simple-qrcode
@@ -360,7 +366,7 @@
     Fitur Generator QR Code dari sebuah URL berhasil di buat.
 
 
-# Mengiplementasikan Captcha pada form login/registrasi Laravel untuk menghindari serangan bot.
+## Mengiplementasikan Captcha pada form login/registrasi Laravel untuk menghindari serangan bot.
 1. Kunjungi Google reCAPTCHA Admin di browser
 2. Pilih reCAPTCHA v2, dan pilih "I'm not robot"
 3. Masukkan domain aplikasi, karena disini saya menggunakan local host maka saya memasukkan domain:
@@ -398,7 +404,7 @@
    ];
    ```
 7. Menambahkan reCAPTCHA di Halaman Login dan Register:
-   # Login
+   ## Login
 
    ```
    {!! NoCaptcha::display() !!}
@@ -414,7 +420,7 @@
    {!! NoCaptcha::renderJs() !!}
    ```
 
-   # Register
+   ## Register
    ```
    {!! NoCaptcha::display() !!}
     
