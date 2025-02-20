@@ -227,10 +227,12 @@ Link github untuk project xss-protection: https://github.com/ZhandouX/xss_protec
     <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-9 w-auto">
     ```
     
-   Hasil :
+   ### Hasil :
    ![Wellcome: ](screnshoot/LogoNav.png)
-4. Lakukan hal yang sama untuk merubah logo pada footer dan otomatis akan merubah logo watermark pada halaman Login & Register:
-   Hasil:
+   
+3. Lakukan hal yang sama untuk merubah logo pada footer dan otomatis akan merubah logo watermark pada halaman Login & Register:
+   
+   ### Hasil:
    ![Wellcome: ](screnshoot/LogoLogin.png)
    ![Wellcome: ](screnshoot/LogoRegistrasi.png)
 
