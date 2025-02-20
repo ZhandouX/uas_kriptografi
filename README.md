@@ -226,3 +226,218 @@
    ![Wellcome: ](screnshot/LogoRegistrasi.png)
 
 
+# Membuat Fitur Tanda Tangan Digital Dengan URL Menjadi Sebuah QR Code
+1. Install Library ```simple-qrcode```:
+   ```
+   composer require simplesoftwareio/simple-qrcode
+   ```
+2. Menambahkan Controller pada ```app/Http/Controllers/```:
+   ```
+   php artisan make:controller QRCodeController
+   ```
+3. Membuat Model dan Migrasi Database:
+   ```
+   php artisan make:model Signature -m
+   ```
+4. Edit Migrasi ```database/migrations/2025_02_19_180020_create_qr_codes_table.php```:
+   ```
+        public function up()
+        {
+            Schema::create('qr_codes', function (Blueprint $table) {
+                $table->id();
+                $table->string('document_url');
+                $table->string('qr_code_filename');
+                $table->timestamps();
+            });
+        }
+   ```
+5. Jalankan Migrasi:
+   ```
+   php artisan migrate
+   ```
+6. Membuat route di ```routes/web.php```:
+   ```
+    use App\Http\Controllers\QrCodeController;
+
+    Route::middleware('auth')->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/create-qrcode', [QrCodeController::class, 'createQrCodeForm'])->name('create-qrcode');
+        Route::post('/store-qrcode', [QrCodeController::class, 'createQrCode'])->name('store-qrcode');
+    });
+   ```
+7. Membuat Tampilan Form Input:
+   ```
+   <form method="POST" action="{{ route('store-qrcode') }}">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="document_url" class="block text-md font-semibold text-black">URL Dokumen</label>
+                        <input type="url" id="document_url" name="document_url" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" value="{{ old('document_url', $document_url ?? '') }}" required>
+                        @error('document_url')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+   <!-- Tombol Buat QR Code dan konten atau fitur lainnya -->
+   ```
+8. Membuat Logika di Controller:
+   - ```Edit app/Http/Controllers/QrCodeController.php```:
+     ```
+        use App\Models\QrCode;
+        use Endroid\QrCode\QrCode as EndroidQrCode;
+        use Endroid\QrCode\Writer\PngWriter;
+        use Illuminate\Support\Facades\Storage;
+        use Illuminate\Support\Str;
+        
+        class QrCodeController extends Controller
+        {
+            public function createQrCodeForm()
+            {
+                return view('create_qrcode'); // Halaman untuk menginput URL dokumen
+            }
+        
+            public function createQrCode(Request $request)
+            {
+                // Validasi input URL dokumen
+                $request->validate([
+                    'document_url' => 'required|url', // Pastikan URL valid
+                ]);
+            
+                // Ambil URL dokumen dari form input
+                $documentUrl = $request->input('document_url');
+            
+                // Buat instance QR Code menggunakan library Endroid
+                $qrCode = new EndroidQrCode($documentUrl);
+                $writer = new PngWriter();
+            
+                // Tentukan nama file untuk QR Code dan path penyimpanan
+                $qrCodePath = 'qr_codes/' . Str::uuid() . '.png'; // Gunakan UUID untuk nama file yang unik
+            
+                // Menyimpan QR Code sebagai file PNG di storage
+                $result = $writer->write($qrCode); // Menghasilkan QR Code dalam bentuk gambar PNG
+            
+                // Simpan gambar QR Code ke dalam folder storage
+                Storage::disk('public')->put($qrCodePath, $result->getString()); // Menyimpan string gambar ke dalam file
+            
+                // Simpan data QR Code ke dalam database
+                QrCode::create([
+                    'document_url' => $documentUrl,
+                    'qr_code_filename' => $qrCodePath,
+                ]);
+            
+                // Redirect kembali ke halaman pembuatan QR Code dengan data QR Code untuk ditampilkan
+                return redirect()->route('create-qrcode')->with([
+                    'success' => 'QR Code berhasil dibuat!',
+                    'qr_code_filename' => $qrCodePath, // Kirimkan nama file QR Code untuk ditampilkan
+                    'document_url' => $documentUrl, // Kirimkan kembali URL dokumen yang diinput
+                ]);
+            }
+            
+        }
+
+     ```
+     
+   - Tambahkan pintasan di menu Dashboard untuk menuju ke halaman Create QR Code. Edit ```resources/views/layout/Navigation.blade.php```:
+     ```
+     <!-- Genetate QR Code -->
+                    <x-nav-link :href="route('create-qrcode')" :active="request()->routeIs('create-qrcode')">
+                        {{ __('Create QR Code') }}
+                    </x-nav-link>
+     ```
+9. Menguji Fitur:
+   Input URL dokumen:
+   ![Wellcome: ](screnshot/QRCODEA.png)
+
+   Hasil:
+   ![Wellcome: ](screnshot/QRCODEH.png)
+10. URL akan disimpan ke database pada tabel qr_codes:
+    ![Wellcome: ](screnshot/TABELURL.png)
+
+    Dan untuk QR Code yang dihasilkan akan tersimpan di ```storage/app/public/qr_codes/``` sebagai format .png:
+    ![Wellcome: ](screnshot/QRCODESTR.png)
+
+    Fitur Generator QR Code dari sebuah URL berhasil di buat.
+
+
+# Mengiplementasikan Captcha pada form login/registrasi Laravel untuk menghindari serangan bot.
+1. Kunjungi Google reCAPTCHA Admin di browser
+2. Pilih reCAPTCHA v2, dan pilih "I'm not robot"
+3. Masukkan domain aplikasi, karena disini saya menggunakan local host maka saya memasukkan domain:
+   ```localhost```
+   kemudian tambahkan domain lagi, yaitu alamat lokal aplikasi Laravel saat menjalannya di browser:
+   ```127.0.0.1:8000```
+
+4. Instalasi Paket untuk reCAPTCHA
+   Saya menggunakan paket ```anhskohbo/no-captcha``` untuk mempermudah integrasi reCAPTCHA di Laravel:
+   ```
+   composer require anhskohbo/no-captcha
+   ```
+5. Konfigurasi Google reCAPTCHA
+   Tambahkan ```NOCAPTCHA_SECRET``` dan ```NOCAPTCHA_SITEKEY``` di file ```.env```:
+   ```
+   NOCAPTCHA_SECRET=your-secret-key
+   NOCAPTCHA_SITEKEY=your-site-key
+   ```
+6. Ubah key pada file ```.env```:
+   ![Wellcome: ](screnshot/GCAPTCHA.png)
+   ```
+   NOCAPTCHA_SECRET=6Lcut9wqAAAAAHDbPDZFZZU6lKrdP1JYz3GG3Qfr
+   NOCAPTCHA_SITEKEY=6Lcut9wqAAAAAPnANTQ5eJ5kjOk555XMIgJJmwTK
+   ```
+
+   Mendaftarkan konfigurasi di ```config/service.php```:
+   ```
+   // config/services.php
+   return [
+        // ...
+        'recaptcha' => [
+            'sitekey' => env('NOCAPTCHA_SITEKEY'),
+            'secret' => env('NOCAPTCHA_SECRET'),
+        ],
+   ];
+   ```
+7. Menambahkan reCAPTCHA di Halaman Login dan Register:
+   # Login
+
+   ```
+   {!! NoCaptcha::display() !!}
+    
+            @error('g-recaptcha-response')
+                <div class="text-red-500">{{ $message }}</div>
+            @enderror
+    
+    
+    
+            <!-- Konten lainnya -->
+   </form>
+   {!! NoCaptcha::renderJs() !!}
+   ```
+
+   # Register
+   ```
+   {!! NoCaptcha::display() !!}
+    
+            @error('g-recaptcha-response')
+                <div class="text-red-500">{{ $message }}</div>
+            @enderror
+    
+    
+    
+            <!-- Konten lainnya -->
+   </form>
+   {!! NoCaptcha::renderJs() !!}
+   ```
+8. Validasi reCAPTCHA di Controller ```app/Http/Controllers/Auth/RegisteredUserController.php```
+   ```
+   $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+                'g-recaptcha-response' => 'required|captcha',
+            ]);
+   ```
+
+9. Uji Coba
+   # LOGIN
+   ![Wellcome: ](screnshot/LOGINCPT.png)
+
+   # REGISTER
+   ![Wellcome: ](screnshot/RESGISTERCPT.png)
