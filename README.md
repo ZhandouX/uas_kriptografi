@@ -451,4 +451,4 @@ Link github untuk project xss-protection: https://github.com/ZhandouX/xss_protec
    ![Wellcome: ](screnshoot/LOGINCPT.png)
 
    # REGISTER
-   ![Wellcome: ](screnshoot/RESGISTERCPT.png)
+   ![Wellcome: ](screnshoot/REGISTERCPT.png)
