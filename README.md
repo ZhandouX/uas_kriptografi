@@ -39,7 +39,7 @@
    php artisan serve
    ```
    Kemudian ```Ctrl + Klik[http://127.0.0.1:8000]```
-   ![Wellcome: ](scrensh0ot/WELLCOME.png)
+   ![Wellcome: ](screnshoot/WELLCOME.png)
    Breeze akan menyiapkan rute seperti:
    - ```/register``` --> Registrasi
    - ```/login``` --> Login
