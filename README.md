@@ -39,7 +39,7 @@
    php artisan serve
    ```
    Kemudian ```Ctrl + Klik[http://127.0.0.1:8000]```
-   ![Wellcome: ](screnshot/WELLCOME.png)
+   ![Wellcome: ](scrensh0ot/WELLCOME.png)
    Breeze akan menyiapkan rute seperti:
    - ```/register``` --> Registrasi
    - ```/login``` --> Login
@@ -101,14 +101,14 @@
    d) Breeze secara otomatis sudah menyiap fungsi Logout.
 8. Uji Coba Login dan Register:
    # Register:
-   ![Wellcome: ](screnshot/REGISTER.png)
+   ![Wellcome: ](scrensh0ot/REGISTER.png)
    # Login:
-   ![Wellcome: ](screnshot/LOGIN.png)
+   ![Wellcome: ](screnshoot/LOGIN.png)
    Saat User berhasil melakukan Register atau Login maka akan diarahkan ke halaman Dashboard:
-   ![Wellcome: ](screnshot/DASHBOARD.png)
+   ![Wellcome: ](screnshoot/DASHBOARD.png)
 
    Data user akan tersimpan di database yang sudah dibuat sebelumnya, tepatnya pada Tabel ```user```.
-   ![Wellcome: ](screnshot/TBLUSER.png)
+   ![Wellcome: ](screnshoot/TBLUSER.png)
 
 
 # Membuat middleware di Laravel untuk mencegah serangan XSS
@@ -222,11 +222,11 @@
     ```
     
    Hasil :
-   ![Wellcome: ](screnshot/LogoNav.png)
+   ![Wellcome: ](screnshoot/LogoNav.png)
 4. Lakukan hal yang sama untuk merubah logo pada footer dan otomatis akan merubah logo watermark pada halaman Login & Register:
    Hasil:
-   ![Wellcome: ](screnshot/LogoLogin.png)
-   ![Wellcome: ](screnshot/LogoRegistrasi.png)
+   ![Wellcome: ](screnshoot/LogoLogin.png)
+   ![Wellcome: ](screnshoot/LogoRegistrasi.png)
 
 
 # Membuat Fitur Tanda Tangan Digital Dengan URL Menjadi Sebuah QR Code
@@ -347,15 +347,15 @@
      ```
 9. Menguji Fitur:
    Input URL dokumen:
-   ![Wellcome: ](screnshot/QRCODEA.png)
+   ![Wellcome: ](screnshoot/QRCODEA.png)
 
    Hasil:
-   ![Wellcome: ](screnshot/QRCODEH.png)
+   ![Wellcome: ](screnshoot/QRCODEH.png)
 10. URL akan disimpan ke database pada tabel qr_codes:
-    ![Wellcome: ](screnshot/TABELURL.png)
+    ![Wellcome: ](screnshoot/TABELURL.png)
 
     Dan untuk QR Code yang dihasilkan akan tersimpan di ```storage/app/public/qr_codes/``` sebagai format .png:
-    ![Wellcome: ](screnshot/QRCODESTR.png)
+    ![Wellcome: ](screnshoot/QRCODESTR.png)
 
     Fitur Generator QR Code dari sebuah URL berhasil di buat.
 
@@ -380,7 +380,7 @@
    NOCAPTCHA_SITEKEY=your-site-key
    ```
 6. Ubah key pada file ```.env```:
-   ![Wellcome: ](screnshot/GCAPTCHA.png)
+   ![Wellcome: ](screnshoot/GCAPTCHA.png)
    ```
    NOCAPTCHA_SECRET=6Lcut9wqAAAAAHDbPDZFZZU6lKrdP1JYz3GG3Qfr
    NOCAPTCHA_SITEKEY=6Lcut9wqAAAAAPnANTQ5eJ5kjOk555XMIgJJmwTK
@@ -440,7 +440,7 @@
 
 9. Uji Coba
    # LOGIN
-   ![Wellcome: ](screnshot/LOGINCPT.png)
+   ![Wellcome: ](screnshoot/LOGINCPT.png)
 
    # REGISTER
-   ![Wellcome: ](screnshot/RESGISTERCPT.png)
+   ![Wellcome: ](screnshoot/RESGISTERCPT.png)
