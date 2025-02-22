@@ -374,7 +374,7 @@ Link github untuk project xss-protection: https://github.com/ZhandouX/xss_protec
 3. Masukkan domain aplikasi, karena disini saya menggunakan local host maka saya memasukkan domain:
    ```localhost```
    kemudian tambahkan domain lagi, yaitu alamat lokal aplikasi Laravel saat menjalannya di browser:
-   ```127.0.0.1:8000```
+   ```127.0.0.1```
 
 4. Instalasi Paket untuk reCAPTCHA
    Saya menggunakan paket ```anhskohbo/no-captcha``` untuk mempermudah integrasi reCAPTCHA di Laravel:
