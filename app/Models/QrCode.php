@@ -11,6 +11,7 @@ class QrCode extends Model
 
     // Menambahkan 'document_url' dan 'qr_code_filename' ke dalam fillable
     protected $fillable = [
+        'name',
         'document_url',  // Menambahkan kolom 'document_url'
         'qr_code_filename',  // Kolom untuk nama file QR Code
     ];

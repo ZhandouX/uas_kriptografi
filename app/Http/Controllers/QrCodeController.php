@@ -13,17 +13,19 @@ class QrCodeController extends Controller
 {
     public function createQrCodeForm()
     {
-        return view('create_qrcode'); // Halaman untuk menginput URL dokumen
+        return view('create_qrcode'); // Halaman untuk menginput nama dan URL dokumen
     }
 
     public function createQrCode(Request $request)
     {
-        // Validasi input URL dokumen
+        // Validasi input nama dan URL dokumen
         $request->validate([
+            'name' => 'required|string|max:255', // Nama wajib diisi
             'document_url' => 'required|url', // Pastikan URL valid
         ]);
     
-        // Ambil URL dokumen dari form input
+        // Ambil input nama dan URL dokumen dari form
+        $name = $request->input('name');
         $documentUrl = $request->input('document_url');
     
         // Buat instance QR Code menggunakan library Endroid
@@ -41,6 +43,7 @@ class QrCodeController extends Controller
     
         // Simpan data QR Code ke dalam database
         QrCode::create([
+            'name' => $name,
             'document_url' => $documentUrl,
             'qr_code_filename' => $qrCodePath,
         ]);
@@ -48,9 +51,9 @@ class QrCodeController extends Controller
         // Redirect kembali ke halaman pembuatan QR Code dengan data QR Code untuk ditampilkan
         return redirect()->route('create-qrcode')->with([
             'success' => 'QR Code berhasil dibuat!',
+            'name' => $name, // Kirimkan kembali nama yang diinput
             'qr_code_filename' => $qrCodePath, // Kirimkan nama file QR Code untuk ditampilkan
             'document_url' => $documentUrl, // Kirimkan kembali URL dokumen yang diinput
         ]);
     }
-    
 }
